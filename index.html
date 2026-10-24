@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ur">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nexora AI - Magic Video Studio</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>body{background:#0a0a12;color:white}.card{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1)}</style>
+</head>
+<body class="min-h-screen p-0">
+<header class="p-4 flex justify-between items-center border-b border-white/10 sticky top-0 bg-[#0a0a12]/90 backdrop-blur z-50">
+<div class="flex gap-3 items-center"><div class="w-10 h-10 rounded-xl bg-gradient-to-br from-violet-500 to-fuchsia-500 flex items-center justify-center font-bold">N</div><div><h1 class="font-bold">Nexora AI</h1><p class="text-xs opacity-60">Magic Video Studio</p></div></div>
+<div class="flex gap-2"><span id="quotaBadge" class="px-3 py-1 rounded-full bg-violet-500/20 text-xs">1/1 Free</span><button onclick="setAdmin()" class="px-3 py-1 rounded-full bg-yellow-500/20 text-xs">Admin: Amir</button></div>
+</header>
+<div class="p-4 max-w-6xl mx-auto space-y-6">
+<div class="card rounded-2xl p-4 flex justify-between"><div><h3 class="font-bold">👑 ایڈمن بمقابلہ یوزر</h3><p id="roleText" class="text-xs opacity-60 mt-1">عام یوزر: روز 1 فری</p></div><div class="text-right"><p class="text-xs">باقی:</p><p id="leftCount" class="text-2xl font-bold text-violet-400">1</p></div></div>
+<h2 class="font-bold text-xl">✨ 25 Magic کیٹیگریز</h2>
+<div id="categories" class="grid grid-cols-2 md:grid-cols-5 gap-3"></div>
+<h2 class="font-bold text-xl">🖼️ نمونہ گیلری</h2>
+<div id="gallery" class="grid grid-cols-3 md:grid-cols-6 gap-3"></div>
+<div class="grid md:grid-cols-2 gap-4">
+<div class="card rounded-2xl p-5"><h3 class="font-bold mb-2">📤 اپنی تصویر اپ لوڈ</h3><input type="file" id="imgInput" accept="image/*" class="w-full text-sm file:mr-2 file:py-2 file:px-4 file:rounded-full file:border-0 file:bg-violet-600 file:text-white"><img id="preview" class="mt-3 rounded-xl hidden max-h-48 mx-auto"><p class="text-[10px] opacity-50 mt-2">⚠️ صرف اپنی تصویر، مذہبی مقامات کا احترام</p></div>
+<div class="card rounded-2xl p-5"><h3 class="font-bold mb-2">✍️ Describe Your Magic Video</h3><textarea id="prompt" rows="5" class="w-full bg-black/40 border border-white/10 rounded-xl p-3 text-sm" placeholder="ایک گیند ہوا میں اڑتی ہے اور سنہری روشنی میں بدل جاتی ہے، پشتو گانے کے ساتھ اتن، کالج میں لڑکی... اردو پشتو انگلش میں لکھیں"></textarea></div>
+</div>
+<div class="card rounded-2xl p-5"><h3 class="font-bold mb-3">⚙️ سیٹنگز - Duration, Ratio, Language</h3><div class="grid grid-cols-2 md:grid-cols-4 gap-3"><select id="duration" class="bg-black/40 border border-white/10 rounded-lg p-2 text-sm"><option value="15">15 سیکنڈ</option><option value="30">30 سیکنڈ</option><option value="45">45 سیکنڈ</option><option value="60">1 منٹ</option><option value="90">1:30 منٹ</option></select><select id="ratio" class="bg-black/40 border border-white/10 rounded-lg p-2 text-sm"><option value="9:16">9:16 عمودی</option><option value="1:1">1:1 مربع</option><option value="16:9">16:9 افقی</option></select><select id="style" class="bg-black/40 border border-white/10 rounded-lg p-2 text-sm"><option>حقیقی جیسا</option><option>خیالی</option><option>کارٹون - بولتا ہوا</option></select><select id="voiceLang" class="bg-black/40 border border-white/10 rounded-lg p-2 text-sm"><option>اردو</option><option>پشتو</option><option>English</option><option>پشتو گانا + اتن</option><option>اردو گانا</option></select></div></div>
+<button onclick="createVideo()" id="createBtn" class="w-full py-4 rounded-2xl bg-gradient-to-r from-violet-600 to-fuchsia-600 font-bold text-lg">🎬 Create Magic Video</button><p id="status" class="text-center text-sm text-violet-300"></p>
+<h2 class="font-bold text-xl">🎞️ My Videos</h2><div id="myVideos" class="grid md:grid-cols-3 gap-3"><p class="opacity-40 text-sm">کوئی ویڈیو نہیں</p></div>
+<div id="premiumBox" class="hidden card rounded-2xl p-5 border border-yellow-500/30"><h3 class="font-bold">🔒 فری حد ختم - Upgrade</h3><div class="grid grid-cols-3 gap-2 mt-3"><div class="p-3 rounded-xl bg-white/5 text-center"><p class="font-bold">Basic</p><p class="text-xs">10/m</p><p class="font-bold text-violet-400">Rs.499</p></div><div class="p-3 rounded-xl bg-violet-600 text-center"><p class="font-bold">Pro</p><p class="text-xs">50/m</p><p class="font-bold">Rs.1499</p></div><div class="p-3 rounded-xl bg-white/5 text-center"><p class="font-bold">Unlimited</p><p class="text-xs">200/m</p><p class="font-bold text-violet-400">Rs.2999</p></div></div></div>
+</div>
+<script>
+const cats=[["Magic Ball","🔮 گیند"],["Water Magic","💧 پانی"],["Fire Magic","🔥 آگ"],["Air Magic","🌬️ ہوا"],["Gold","✨ سونا"],["Disappearing","👻 غائب"],["Teleport","🌀 ٹیلی پورٹ"],["Wand","🪄 چھڑی"],["Door","🚪 دروازہ"],["Object","🔄 بدلنا"],["Flying","🛸 اڑنا"],["Time Freeze","⏸️ وقت"],["Underwater","🌊 پانی کے نیچے"],["Space","🚀 خلا"],["Garden","🌸 باغ"],["House","🏠 گھر"],["Car","🚗 گاڑی"],["Fantasy","🌈 خیالی"],["Castle","🏰 محل"],["Flowers","🌺 پھول"],["Light","💡 روشنی"],["Animals","🦄 جانور"],["Superhero","🦸 ہیرو"],["Dream","💭 خواب"],["Before After","↔️ پہلے بعد"]];
+const galleryItems=["👦 لڑکا","👧 لڑکی","👶 بچہ","👴 بزرگ","🧙 جادوگر","🦄 خیالی","⚽ گیند","🪄 چھڑی","💧 آبشار","⛲ فوارہ","🌳 باغ","🌷 پھول","🕋 خانہ کعبہ","🕌 مسجد","🏡 بنگلہ","🏰 محل","🚗 کار","🚀 مستقبل کار","⛰️ پہاڑ","🌊 سمندر","🌌 خلا"];
+let selectedCat='Magic Ball';
+function renderCats(){document.getElementById('categories').innerHTML=cats.map(c=>`<div onclick="selectCat('${c[0]}')" class="card rounded-xl p-3 cursor-pointer ${selectedCat===c[0]?'ring-2 ring-violet-500':''}"><div class="h-12 rounded-lg bg-gradient-to-br from-violet-500/30 to-fuchsia-500/20 flex items-center justify-center text-xl">${c[1].split(' ')[0]}</div><p class="font-semibold text-xs mt-2">${c[0]}</p><p class="text-[10px] opacity-60">${c[1]}</p></div>`).join('');}
+function selectCat(n){selectedCat=n;renderCats();}
+function renderGallery(){document.getElementById('gallery').innerHTML=galleryItems.map(g=>`<div onclick="document.getElementById('prompt').value+=' '+this.innerText" class="card rounded-xl p-2 text-center cursor-pointer"><div class="text-2xl">${g.split(' ')[0]}</div><p class="text-[9px] mt-1">${g}</p></div>`).join('');}
+let isAdmin=localStorage.getItem('isAdmin')==='true';
+function updateQuota(){const today=new Date().toDateString();let data=JSON.parse(localStorage.getItem('quota')||'{}');if(data.date!==today){data={date:today,count:0};localStorage.setItem('quota',JSON.stringify(data));}const used=data.count||0;const limit=isAdmin?999:1;const left=isAdmin?'∞':Math.max(0,limit-used);document.getElementById('leftCount').innerText=left;document.getElementById('quotaBadge').innerText=isAdmin?'👑 Admin: Unlimited':`باقی: ${left}/${limit}`;document.getElementById('roleText').innerText=isAdmin?'ایڈمن عامر: ان لمیٹڈ':'عام یوزر: روز 1 فری';document.getElementById('premiumBox').classList.toggle('hidden',isAdmin||left>0);document.getElementById('createBtn').disabled=(!isAdmin&&left<=0);}
+function setAdmin(){isAdmin=!isAdmin;localStorage.setItem('isAdmin',isAdmin);updateQuota();alert(isAdmin?'Admin ON':'User mode');}
+document.getElementById('imgInput').addEventListener('change',e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{document.getElementById('preview').src=r.result;document.getElementById('preview').classList.remove('hidden');};r.readAsDataURL(f);});
+async function createVideo(){let data=JSON.parse(localStorage.getItem('quota')||'{}');const today=new Date().toDateString();if(data.date!==today)data={date:today,count:0};if(!isAdmin&&data.count>=1){updateQuota();return;}const prompt=document.getElementById('prompt').value.trim();if(!prompt&&!document.getElementById('preview').src){alert('تحریر یا تصویر دیں');return;}const status=document.getElementById('status');const steps=['درخواست بھیجی جا رہی ہے...','ویڈیو بن رہی ہے...','ویڈیو تیار ہے!'];for(let s of steps){status.innerText=s;await new Promise(r=>setTimeout(r,900));}data.count=(data.count||0)+1;data.date=today;localStorage.setItem('quota',JSON.stringify(data));updateQuota();const duration=document.getElementById('duration').value;const div=document.createElement('div');div.className='card rounded-xl p-3';div.innerHTML=`<div class="h-32 rounded-lg bg-gradient-to-br from-violet-600 to-fuchsia-600 flex items-center justify-center">🎬 ${selectedCat} ${duration}s</div><p class="text-xs mt-2">${prompt||'تصویر سے ویڈیو'}</p><div class="flex gap-2 mt-2"><button class="flex-1 py-1 rounded bg-white/10 text-xs">Preview</button><button class="flex-1 py-1 rounded bg-white/10 text-xs">Download</button><button class="flex-1 py-1 rounded bg-white/10 text-xs">Share</button></div>`;document.getElementById('myVideos').prepend(div);status.innerText='✅ گیلری میں محفوظ (حقیقی API درکار)';}
+renderCats();renderGallery();updateQuota();
+</script>
+</body>
+</html>
